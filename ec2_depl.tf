@@ -17,20 +17,28 @@ resource "aws_security_group" "depl_sg" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_3000_ipv4_depl" {
-  security_group_id            = aws_security_group.depl_sg.id
-  referenced_security_group_id = aws_security_group.jenkins_sg.id
-  from_port                    = 3456
-  to_port                      = 3456
-  ip_protocol                  = "tcp"
-}
+# resource "aws_vpc_security_group_ingress_rule" "allow_3000_ipv4_depl" {
+#   security_group_id            = aws_security_group.depl_sg.id
+#   referenced_security_group_id = aws_security_group.jenkins_sg.id
+#   from_port                    = 3456
+#   to_port                      = 3456
+#   ip_protocol                  = "tcp"
+# }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_4000_ipv4_depl" {
+# resource "aws_vpc_security_group_ingress_rule" "allow_4000_ipv4_depl" {
+#   security_group_id = aws_security_group.depl_sg.id
+#   cidr_ipv4         = "0.0.0.0/0"
+#   from_port         = 4000
+#   to_port           = 4000
+#   ip_protocol       = "tcp"
+# }
+
+resource "aws_vpc_security_group_ingress_rule" "allow_all_ipv4_depl" {
   security_group_id = aws_security_group.depl_sg.id
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 4000
-  to_port           = 4000
-  ip_protocol       = "tcp"
+  ip_protocol       = "-1"   # -1 means ALL protocols (TCP, UDP, ICMP)
+  from_port         = 0
+  to_port           = 0
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh_ipv4_depl" {
